@@ -1,10 +1,14 @@
 package com.coccoc;
 
+import java.io.IOException;
+import java.io.Reader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +53,10 @@ public class Tokenizer {
     }
 
     private Tokenizer() {
-        System.load(libPath);
+        AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
+            System.load(libPath);
+            return null;
+        });
         initialize(dictPath);
     }
 
@@ -91,5 +98,16 @@ public class Tokenizer {
         freeMemory(pointers);
 
         return tokens;
+    }
+
+    public List<Token> tokenize(Reader input, Mode mode) throws IOException {
+        char[] buffer = new char[1024];
+        StringBuilder sb = new StringBuilder();
+        int numCharsRead;
+        while ((numCharsRead = input.read(buffer, 0, buffer.length)) != -1) {
+            sb.append(buffer, 0, numCharsRead);
+        }
+
+        return tokenize(sb.toString(), mode);
     }
 }

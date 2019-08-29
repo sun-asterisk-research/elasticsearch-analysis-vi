@@ -3,6 +3,26 @@ buildscript {
         mavenCentral()
         jcenter()
     }
+
+    dependencies {
+        classpath "org.elasticsearch.gradle:build-tools:${elasticsearchVersion}"
+    }
 }
 
 apply plugin: 'java'
+apply plugin: 'elasticsearch.esplugin'
+
+version = "${pluginVersion}-es${versions.elasticsearch}"
+
+esplugin {
+    name 'analysis-vi'
+    version "${version}"
+    description 'Elasticsearch Vietnamese Analysis Plugin'
+    classname 'org.elasticsearch.plugin.analysis.vi.AnalysisViPlugin'
+    licenseFile rootProject.file('LICENSE')
+    noticeFile rootProject.file('README.md')
+}
+
+test.enabled = false
+integTest.enabled = false
+licenseHeaders.enabled = false

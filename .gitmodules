@@ -1,0 +1,3 @@
+[submodule "coccoc-tokenizer"]
+	path = coccoc-tokenizer
+	url = https://github.com/coccoc/coccoc-tokenizer

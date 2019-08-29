@@ -11,6 +11,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'elasticsearch.esplugin'
+apply from:   'tokenizer.gradle'
 
 version = "${pluginVersion}-es${versions.elasticsearch}"
 

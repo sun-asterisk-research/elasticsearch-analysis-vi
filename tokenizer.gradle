@@ -1,0 +1,55 @@
+def JAVA_HOME = System.getenv('JAVA_HOME') ?: System.getenv('JDK_HOME')
+
+task configureTokenizer(type:Exec) {
+    outputs.dir 'build/tokenizer'
+
+    workingDir 'build/tokenizer'
+    commandLine 'cmake', '../../coccoc-tokenizer'
+}
+
+task compileDict(type:Exec) {
+    outputs.dir 'build/tokenizer'
+    outputs.files 'multiterm_trie.dump', 'nontone_pair_freq_map.dump', 'syllable_trie.dump'
+
+    dependsOn 'configureTokenizer'
+    workingDir 'build/tokenizer'
+    commandLine 'make', 'compile_dict'
+}
+
+task compileTokenizer(type:Exec) {
+    outputs.dirs 'build/lib'
+
+    dependsOn 'configureTokenizer'
+    dependsOn 'compileJava'
+
+    commandLine 'g++', '-Wall', '-Werror', '-Wno-deprecated', '-shared', '-std=c++11', '-O3', '-DNDEBUG', '-ggdb', '-fPIC',
+        '-I', 'coccoc-tokenizer',
+        '-I', 'build/headers',
+        '-I', "build/tokenizer/auto",
+        '-I', "${JAVA_HOME}/include",
+        '-I', "${JAVA_HOME}/include/linux",
+        '-o', 'build/lib/libcoccoc_tokenizer_jni.so',
+        'src/main/jni/Tokenizer.cpp'
+}
+
+compileJava {
+    options.compilerArgs += ['-h', file('build/headers')]
+}
+
+bundlePlugin {
+    dependsOn 'compileDict'
+    dependsOn 'compileTokenizer'
+
+    from('build/lib') {
+        into 'lib'
+    }
+
+    from('build/tokenizer') {
+        include '*.dump'
+        into 'dicts'
+    }
+
+    from('coccoc-tokenizer/dicts/vn_lang_tool') {
+        into 'dicts'
+    }
+}

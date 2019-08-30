@@ -17,13 +17,16 @@ version = "${pluginVersion}-es${versions.elasticsearch}"
 
 esplugin {
     name 'analysis-vi'
-    version "${version}"
+    version "${pluginVersion}"
     description 'Elasticsearch Vietnamese Analysis Plugin'
     classname 'org.elasticsearch.plugin.analysis.vi.AnalysisViPlugin'
     licenseFile rootProject.file('LICENSE')
     noticeFile rootProject.file('README.md')
 }
 
+integTestRunner {
+    include 'org/elasticsearch/index/analysis/*Tests.class'
+}
+
 test.enabled = false
-integTest.enabled = false
 licenseHeaders.enabled = false

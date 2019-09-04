@@ -3,7 +3,7 @@
 Vietnamese Analysis plugin integrates Vietnamese language analysis into Elasticsearch.
 The plugin provides the following functions:
 
-Analyzer: `vi_analyzer`. Tokenizer: `vi_tokenizer`. Filter: `vi_stop`. The `vi_analyzer` itself is composed of the `vi_tokenizer`, the `lowercase` and the `vi_stop` filter.
+Analyzer: `vi_analyzer`. Tokenizer: `vi_tokenizer`. Filter: `vi_stop`. The `vi_analyzer` itself is composed of the `vi_tokenizer` and the `vi_stop` filter.
 
 The tokenizer uses [coccoc-tokenizer](https://github.com/coccoc/coccoc-tokenizer) for tokenization.
 

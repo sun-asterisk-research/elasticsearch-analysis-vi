@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.coccoc.Tokenizer.Mode;
 
 import org.apache.lucene.analysis.CharArraySet;
-import org.apache.lucene.analysis.LowerCaseFilter;
 import org.apache.lucene.analysis.StopwordAnalyzerBase;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
@@ -38,8 +37,7 @@ public class VietnameseAnalyzer extends StopwordAnalyzerBase {
     @Override
     protected TokenStreamComponents createComponents(String fieldName) {
         Tokenizer tokenizer = new VietnameseTokenizer(mode);
-        TokenStream stream = new LowerCaseFilter(tokenizer);
-        stream = new StopFilter(stream, stopwords);
+        TokenStream stream = new StopFilter(tokenizer, stopwords);
 
         return new TokenStreamComponents(tokenizer, stream);
     }

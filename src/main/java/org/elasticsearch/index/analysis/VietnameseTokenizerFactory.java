@@ -14,7 +14,7 @@ public class VietnameseTokenizerFactory extends AbstractTokenizerFactory {
     private final Mode tokenizeMode;
 
     public VietnameseTokenizerFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
-        super(indexSettings, settings);
+        super(indexSettings, settings, name);
 
         tokenizeMode = getTokenizeMode(settings);
     }

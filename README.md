@@ -25,7 +25,8 @@ elasticsearch-plugin instal file:///path/to/plugin
 
 | Branch | Elasticsearch version |
 |--------|-----------------------|
-| master | 7.x                   |
+| master | 7.4+                  |
+| 7.3    | 7.0 - 7.3             |
 
 ## Build from source
 
